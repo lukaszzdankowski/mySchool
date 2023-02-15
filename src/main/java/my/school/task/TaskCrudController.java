@@ -3,11 +3,13 @@ package my.school.task;
 import my.school.user.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -27,7 +29,10 @@ public class TaskCrudController {
     }
 
     @PostMapping("/save")
-    public String saveTask(Task task){
+    public String saveTask(@Valid Task task, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "/task/crud/edit";
+        }
         taskRepository.save(task);
         return "redirect: /task/crud/showall";
     }
@@ -41,7 +46,7 @@ public class TaskCrudController {
     public String editTask(@PathVariable Long id, Model model) {
         Task task = taskRepository.findById(id).orElse(null);
         if (task == null) {
-            return "/task/crud/nouser";
+            return "/task/crud/notask";
         }
         model.addAttribute(task);
         return "/task/crud/edit";
@@ -50,7 +55,7 @@ public class TaskCrudController {
     public String showTask(@PathVariable Long id, Model model) {
         Task task = taskRepository.findById(id).orElse(null);
         if (task == null) {
-            return "/task/crud/nouser";
+            return "/task/crud/notask";
         }
         model.addAttribute(task);
         return "/task/crud/showone";
@@ -64,7 +69,7 @@ public class TaskCrudController {
     public String removeTask(@PathVariable Long id, Model model) {
         Task task = taskRepository.findById(id).orElse(null);
         if (task == null) {
-            return "/task/crud/nouser";
+            return "/task/crud/notask";
         }
         model.addAttribute(task);
         return "/task/crud/remove";

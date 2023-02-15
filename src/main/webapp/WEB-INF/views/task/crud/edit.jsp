@@ -7,10 +7,12 @@
 <body>
 <form:form method="post" action="/task/crud/save" modelAttribute="task">
     <form:label path="content">content: </form:label>
-    <form:input path="content"/><br>
+    <form:input path="content"/>
+    <form:errors path="content"/><br>
 
     <form:label path="result">result: </form:label>
-    <form:input path="result"/><br>
+    <form:input path="result"/>
+    <form:errors path="result"/><br>
 
     <form:hidden path="id"/>
     <input type="submit" value="Save Task" />

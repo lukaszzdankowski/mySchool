@@ -1,6 +1,8 @@
 package my.school.task;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "tasks")
@@ -10,6 +12,8 @@ public class Task {
     private Long id;
 
     @Column(columnDefinition="TEXT")
+    @NotEmpty
+    @NotBlank
     private String content;
     private double result;
 
