@@ -13,7 +13,7 @@
     <form:input path="name"/><br>
 
     <form:label path="role">role: </form:label>
-    <form:input path="role"/><br>
+    <form:select path="role" items="${roles}" /><br>
 
     <form:hidden path="id"/>
     <input type="submit" value="Save User" />
