@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>All User List</title>
+    <title>All Task List</title>
     <style>
         table, th, td {
             border: 1px solid black;
@@ -14,28 +14,26 @@
 <table>
     <thead>
     <th>id</th>
-    <th>email</th>
-    <th>name</th>
-    <th>role</th>
+    <th>content</th>
+    <th>result</th>
     <th>show link</th>
     <th>edit link</th>
     <th>remove link</th>
     </thead>
     <tbody>
-    <c:forEach items="${users}" var="item">
+    <c:forEach items="${tasks}" var="item">
         <tr>
             <td>${item.id}</td>
-            <td>${item.email}</td>
-            <td>${item.name}</td>
-            <td>${item.role}</td>
-            <td><a href="/user/crud/show/${item.id}">Show user</a></td>
-            <td><a href="/user/crud/edit/${item.id}">Edit user</a></td>
-            <td><a href="/user/crud/remove/${item.id}">Remove user</a></td>
+            <td>${item.content}</td>
+            <td>${item.result}</td>
+            <td><a href="/task/crud/show/${item.id}">Show task</a></td>
+            <td><a href="/task/crud/edit/${item.id}">Edit task</a></td>
+            <td><a href="/task/crud/remove/${item.id}">Remove task</a></td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
-<a href="/user/crud/add">Create user</a><br>
+<a href="/task/crud/add">Create task</a><br>
 <a href="/">Local host</a>
 </body>
 </html>
