@@ -1,4 +1,4 @@
-package my.school.user.testing;
+package my.school.testing;
 
 import my.school.user.User;
 import my.school.user.UserRepository;
