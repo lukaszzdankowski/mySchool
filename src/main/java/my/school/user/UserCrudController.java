@@ -3,8 +3,10 @@ package my.school.user;
 import my.school.testing.ConsoleColors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +36,10 @@ public class UserCrudController {
     }
 
     @PostMapping("/save")
-    public String saveUser(User user) {
+    public String saveUser(@Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "/user/crud/edit";
+        }
         userRepository.save(user);
         return "redirect: /user/crud/showall";
     }

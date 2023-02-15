@@ -7,7 +7,8 @@
 <body>
 <form:form method="post" action="/user/crud/save" modelAttribute="user">
     <form:label path="email">email: </form:label>
-    <form:input path="email"/><br>
+    <form:input path="email"/>
+    <form:errors path="email"/><br>
 
     <form:label path="name">name: </form:label>
     <form:input path="name"/><br>
