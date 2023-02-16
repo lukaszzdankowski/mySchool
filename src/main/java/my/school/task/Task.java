@@ -1,8 +1,12 @@
 package my.school.task;
 
+import my.school.exam.Exam;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tasks")
@@ -16,6 +20,8 @@ public class Task {
     @NotBlank
     private String content;
     private double result;
+    @ManyToMany(mappedBy = "tasks")
+    private List<Exam> exams = new ArrayList<>();
 
     public Task() {
     }
@@ -42,5 +48,13 @@ public class Task {
 
     public void setResult(double result) {
         this.result = result;
+    }
+
+    public List<Exam> getExams() {
+        return exams;
+    }
+
+    public void setExams(List<Exam> exams) {
+        this.exams = exams;
     }
 }

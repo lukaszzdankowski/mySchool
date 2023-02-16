@@ -1,17 +1,23 @@
 package my.school.testing;
 
+import my.school.exam.Exam;
+import my.school.task.TaskRepository;
 import my.school.user.User;
 import my.school.user.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 public class TestController {
     private final UserRepository userRepository;
+    private final TaskRepository taskRepository;
 
-    public TestController(UserRepository userRepository) {
+    public TestController(UserRepository userRepository, TaskRepository taskRepository) {
         this.userRepository = userRepository;
+        this.taskRepository = taskRepository;
     }
 
     @RequestMapping("/test1")
@@ -24,5 +30,11 @@ public class TestController {
         user.setRole("teacher");
         userRepository.save(user);
         return user.toString();
+    }
+    @RequestMapping("/test2")
+    @ResponseBody
+    public String testFetchExamsForTask(){
+        List<Exam> exams = taskRepository.getTaskByIdWithExams(1L).getExams();
+        return exams.toString();
     }
 }

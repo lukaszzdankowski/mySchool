@@ -45,4 +45,12 @@ public class Exam {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+
+    @Override
+    public String toString() {
+        return "Exam{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }

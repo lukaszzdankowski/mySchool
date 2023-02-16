@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
     <title>Task remove confirmation</title>
@@ -24,7 +25,14 @@
         <td>${task.result}</td>
     </tr>
 </table>
-</body>
+<br>
+<table>
+    <tr><th>This task is used in Exams:</th></tr>
+    <c:forEach items="${exams}" var="item">
+        <tr><td>${item.title}</td></tr>
+    </c:forEach>
+</table>
 <a href="/task/crud/delete/${task.id}">REMOVE</a><br>
 <a href="/task/crud/showall">CANCEL</a><br>
+</body>
 </html>

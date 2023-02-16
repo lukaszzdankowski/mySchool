@@ -1,5 +1,6 @@
 package my.school.task;
 
+import my.school.exam.Exam;
 import my.school.user.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,6 +59,8 @@ public class TaskCrudController {
             return "/task/crud/notask";
         }
         model.addAttribute(task);
+        List<Exam> exams = taskRepository.getTaskByIdWithExams(id).getExams();
+        model.addAttribute("exams",exams);
         return "/task/crud/showone";
     }
     @GetMapping("/delete/{id}")
@@ -72,6 +75,8 @@ public class TaskCrudController {
             return "/task/crud/notask";
         }
         model.addAttribute(task);
+        List<Exam> exams = taskRepository.getTaskByIdWithExams(id).getExams();
+        model.addAttribute("exams",exams);
         return "/task/crud/remove";
     }
 }
