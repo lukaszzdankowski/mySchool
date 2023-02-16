@@ -19,6 +19,9 @@ public class TestController {
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
     }
+    public void showConsoleColors(){
+        System.out.println(ConsoleColors.BLUE + "wyswietlanie ksiazek"+ ConsoleColors.RESET);
+    }
 
     @RequestMapping("/test1")
     @ResponseBody

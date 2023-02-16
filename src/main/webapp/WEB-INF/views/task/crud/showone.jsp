@@ -11,6 +11,7 @@
     </style>
 </head>
 <body>
+<h1>Task details</h1>
 <table>
     <tr>
         <th>id</th>

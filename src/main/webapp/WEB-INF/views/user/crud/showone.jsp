@@ -10,6 +10,7 @@
     </style>
 </head>
 <body>
+<h1>User details</h1>
 <table>
     <tr>
         <th>id</th>
