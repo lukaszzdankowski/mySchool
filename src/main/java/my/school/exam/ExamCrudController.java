@@ -39,11 +39,12 @@ public class ExamCrudController {
             return "/exam/crud/noexam";
         }
         model.addAttribute(exam);
-        if (examRepository.getExamByIdWithTasks(id) != null){
-            List<Task> tasks = examRepository.getExamByIdWithTasks(id).getTasks();
-            model.addAttribute("tasks", tasks);
-        }
         return "/exam/crud/showone";
+    }
+    @PostMapping("/save")
+    public String saveExam(Exam exam){
+        examRepository.save(exam);
+        return "redirect: /exam/crud/showall";
     }
     @GetMapping("/add")
     public String addExam(Model model) {
@@ -51,21 +52,27 @@ public class ExamCrudController {
         model.addAttribute(exam);
         return "/exam/crud/edit";
     }
-    @PostMapping("/save")
-    public String saveExam(Exam exam){
-        examRepository.save(exam);
-        return "redirect: /exam/crud/showall";
-    }
-
     @GetMapping("/edit/{id}")
     public String editExam(@PathVariable Long id, Model model) {
-//        Exam exam = examRepository.findById(id).orElse(null);
-//        if (exam == null) {
-//            return "/exam/crud/noexam";
-//        }
-        Exam exam = examRepository.getExamByIdWithTasks(id);
+        Exam exam = examRepository.findById(id).orElse(null);
+        if (exam == null) {
+            return "/exam/crud/noexam";
+        }
         model.addAttribute(exam);
         return "/exam/crud/edit";
     }
-
+    @GetMapping("/delete/{id}")
+    public String deleteExam(@PathVariable Long id) {
+        examRepository.deleteById(id);
+        return "redirect: /exam/crud/showall";
+    }
+    @GetMapping("/remove/{id}")
+    public String removeExam(@PathVariable Long id, Model model) {
+        Exam exam = examRepository.findById(id).orElse(null);
+        if (exam == null) {
+            return "/exam/crud/noexam";
+        }
+        model.addAttribute(exam);
+        return "/exam/crud/remove";
+    }
 }

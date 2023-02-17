@@ -10,6 +10,4 @@ import javax.transaction.Transactional;
 @Repository
 @Transactional
 public interface ExamRepository extends JpaRepository<Exam, Long> {
-    @Query("select e from Exam e join fetch e.tasks where e.id = :id")
-    Exam getExamByIdWithTasks(@Param("id") Long id);
 }

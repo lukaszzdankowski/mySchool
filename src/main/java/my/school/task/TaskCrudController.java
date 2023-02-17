@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/task/crud")
@@ -63,6 +64,7 @@ public class TaskCrudController {
     }
     @GetMapping("/delete/{id}")
     public String deleteTask(@PathVariable Long id) {
+        taskRepository.detachExamsFromTask(id);
         taskRepository.deleteById(id);
         return "redirect: /task/crud/showall";
     }

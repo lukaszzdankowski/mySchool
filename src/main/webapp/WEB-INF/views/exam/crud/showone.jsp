@@ -23,12 +23,11 @@
     </tr>
 </table>
 <br>
-<c:if test="${not empty tasks}">
     <table>
         <tr>
             <th colspan="3">This Exam contains following Tasks:</th>
         </tr>
-        <c:forEach items="${tasks}" var="item">
+        <c:forEach items="${exam.tasks}" var="item">
             <tr>
                 <td>${item.id}</td>
                 <td>${item.content}</td>
@@ -36,7 +35,6 @@
             </tr>
         </c:forEach>
     </table>
-</c:if>
 <a href="/exam/crud/showall">Return to Exam list</a><br>
 </body>
 </html>
