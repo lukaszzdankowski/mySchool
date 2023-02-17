@@ -21,7 +21,7 @@ public class Task {
     @NotBlank
     private String content;
     private double result;
-    @ManyToMany(mappedBy = "tasks")
+    @ManyToMany(mappedBy = "tasks", fetch = FetchType.EAGER)
     private List<Exam> exams = new ArrayList<>();
 
     public Task() {
@@ -59,16 +59,4 @@ public class Task {
         this.exams = exams;
     }
 
-        @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equals(id, task.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

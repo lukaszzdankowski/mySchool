@@ -59,8 +59,6 @@ public class TaskCrudController {
             return "/task/crud/notask";
         }
         model.addAttribute(task);
-        List<Exam> exams = taskRepository.getTaskByIdWithExams(id).getExams();
-        model.addAttribute("exams",exams);
         return "/task/crud/showone";
     }
     @GetMapping("/delete/{id}")
@@ -75,8 +73,6 @@ public class TaskCrudController {
             return "/task/crud/notask";
         }
         model.addAttribute(task);
-        List<Exam> exams = taskRepository.getTaskByIdWithExams(id).getExams();
-        model.addAttribute("exams",exams);
         return "/task/crud/remove";
     }
 }

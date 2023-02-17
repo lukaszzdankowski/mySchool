@@ -37,7 +37,8 @@ public class TestController {
     @RequestMapping("/test2")
     @ResponseBody
     public String testFetchExamsForTask(){
-        List<Exam> exams = taskRepository.getTaskByIdWithExams(1L).getExams();
-        return exams.toString();
+//        List<Exam> exams = taskRepository.getTaskByIdWithExams(1L).getExams();
+//        return exams.toString();
+        return "";
     }
 }

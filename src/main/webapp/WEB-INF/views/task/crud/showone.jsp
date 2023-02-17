@@ -29,7 +29,7 @@
 <br>
 <table>
     <tr><th>This task is used in Exams:</th></tr>
-<c:forEach items="${exams}" var="item">
+<c:forEach items="${task.exams}" var="item">
     <tr><td>${item.title}</td></tr>
 </c:forEach>
 </table>

@@ -11,6 +11,5 @@ import javax.transaction.Transactional;
 @Repository
 @Transactional
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    @Query("select t from Task t join fetch t.exams where t.id = :id")
-    Task getTaskByIdWithExams(@Param("id") Long id);
+
 }
