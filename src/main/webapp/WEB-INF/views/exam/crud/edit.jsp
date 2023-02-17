@@ -9,8 +9,8 @@
     <form:label path="title">title: </form:label>
     <form:input path="title"/><br>
 
-<%--    <form:label path="tasks">tasks: </form:label><br>--%>
-<%--    <form:checkboxes items="${tasklist}" path="tasks" delimiter="<br>"/><br>--%>
+    <form:label path="tasks">tasks: </form:label><br>
+    <form:checkboxes path="tasks" items="${tasklist}" itemLabel="content" itemValue="id" delimiter="<br>"/><br>
 
     <form:hidden path="id"/>
     <input type="submit" value="Save Exam" />

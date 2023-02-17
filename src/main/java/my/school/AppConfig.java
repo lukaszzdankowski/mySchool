@@ -1,9 +1,13 @@
 package my.school;
 
+import my.school.task.TaskConverter;
+import my.school.task.TaskRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -22,6 +26,9 @@ import javax.persistence.EntityManagerFactory;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "my.school")
 public class AppConfig implements WebMvcConfigurer {
+    @Autowired
+    private TaskRepository taskRepository;
+
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver =
@@ -47,5 +54,14 @@ public class AppConfig implements WebMvcConfigurer {
     @Bean
     public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
         return new JpaTransactionManager(emf);
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(taskConverter());
+    }
+    @Bean
+    public TaskConverter taskConverter(){
+        return new TaskConverter(taskRepository);
     }
 }
