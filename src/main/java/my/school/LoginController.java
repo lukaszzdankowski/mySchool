@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -35,12 +36,19 @@ public class LoginController {
         if (!BCrypt.checkpw(password, user.getPassword())) {
             return "/wrongpassword";
         }
+        HttpSession session = request.getSession();
+        session.setAttribute("loggedUser", user);
         if ("teacher".equals(user.getRole())) {
-            return "/teacher/home";
+            return "redirect: /teacher/home";
         } else if ("student".equals(user.getRole())) {
-            return "/student/home";
+            return "redirect: /student/home";
         } else {
             return "/error";
         }
+    }
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect: /login";
     }
 }

@@ -4,6 +4,6 @@
     <title>Student homepage</title>
 </head>
 <body>
-Student
+You are logged as: ${loggedUser.role}: ${loggedUser.email} <a href="/logout">LOGOUT</a><br>
 </body>
 </html>
