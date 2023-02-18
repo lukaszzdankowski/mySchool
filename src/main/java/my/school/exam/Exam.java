@@ -3,6 +3,8 @@ package my.school.exam;
 import my.school.task.Task;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,8 @@ public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty
+    @NotBlank
     private String title;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "exam_tasks",

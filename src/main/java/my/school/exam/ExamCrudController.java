@@ -6,8 +6,10 @@ import my.school.testing.ConsoleColors;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -42,7 +44,10 @@ public class ExamCrudController {
         return "/exam/crud/showone";
     }
     @PostMapping("/save")
-    public String saveExam(Exam exam){
+    public String saveExam(@Valid Exam exam, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "/exam/crud/edit";
+        }
         examRepository.save(exam);
         return "redirect: /exam/crud/showall";
     }

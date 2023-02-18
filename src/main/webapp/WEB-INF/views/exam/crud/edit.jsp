@@ -7,7 +7,8 @@
 <body>
 <form:form method="post" action="/exam/crud/save" modelAttribute="exam">
     <form:label path="title">title: </form:label>
-    <form:input path="title"/><br>
+    <form:input path="title"/>
+    <form:errors path="title"/><br>
 
     <form:label path="tasks">tasks: </form:label><br>
     <form:checkboxes path="tasks" items="${tasklist}" itemLabel="content" itemValue="id" delimiter="<br>"/><br>
