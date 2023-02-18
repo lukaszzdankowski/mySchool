@@ -10,6 +10,10 @@
     <form:input path="email"/>
     <form:errors path="email"/><br>
 
+    <form:label path="password">password: </form:label>
+    <form:password path="password"/>
+    <form:errors path="password"/><br>
+
     <form:label path="name">name: </form:label>
     <form:input path="name"/><br>
 

@@ -1,6 +1,7 @@
 package my.school.user;
 
 import my.school.testing.ConsoleColors;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,11 @@ public class UserCrudController {
         if (bindingResult.hasErrors()){
             return "/user/crud/edit";
         }
+        List<User> listOfUsersWithThisEmail = userRepository.findByEmail(user.getEmail());
+        if (listOfUsersWithThisEmail.size() != 0){
+            return "/user/crud/emailduplicate";
+        }
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         userRepository.save(user);
         return "redirect: /user/crud/showall";
     }

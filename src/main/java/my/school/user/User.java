@@ -11,9 +11,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     @NotEmpty
     @Email
     private String email;
+    @NotEmpty
+    @NotNull
+    private String password;
 
     private String name;
 
@@ -54,4 +58,11 @@ public class User {
         this.role = role;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
