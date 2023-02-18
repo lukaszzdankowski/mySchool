@@ -46,11 +46,4 @@ public class Exam {
         this.tasks = tasks;
     }
 
-    @Override
-    public String toString() {
-        return "Exam{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                '}';
-    }
 }
