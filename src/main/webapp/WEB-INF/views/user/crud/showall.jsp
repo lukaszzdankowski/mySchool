@@ -36,6 +36,6 @@
     </tbody>
 </table>
 <a href="/user/crud/add">Create user</a><br>
-<a href="/">Local host</a>
+<a href="/teacher/home">Home page</a>
 </body>
 </html>

@@ -34,6 +34,6 @@
     </tbody>
 </table>
 <a href="/task/crud/add">Create task</a><br>
-<a href="/">Local host</a>
+<a href="/teacher/home">Home page</a>
 </body>
 </html>

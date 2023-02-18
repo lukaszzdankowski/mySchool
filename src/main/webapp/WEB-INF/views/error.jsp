@@ -4,6 +4,7 @@
     <title>Error</title>
 </head>
 <body>
-Something went wrong
+Something went wrong<br>
+<a href="/login">Login page</a><br>
 </body>
 </html>

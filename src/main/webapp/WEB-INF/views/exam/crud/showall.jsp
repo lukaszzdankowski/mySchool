@@ -32,6 +32,6 @@
     </tbody>
 </table>
 <a href="/exam/crud/add">Create exam</a><br>
-<a href="/">Local host</a>
+<a href="/teacher/home">Home page</a>
 </body>
 </html>
