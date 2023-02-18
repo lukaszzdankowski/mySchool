@@ -2,10 +2,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Edit User form</title>
+    <title>Add User form</title>
 </head>
 <body>
-<form:form method="post" action="/user/crud/update" modelAttribute="user">
+<form:form method="post" action="/user/crud/save" modelAttribute="user">
     <form:label path="email">email: </form:label>
     <form:input path="email"/>
     <form:errors path="email"/><br>

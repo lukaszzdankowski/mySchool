@@ -54,7 +54,16 @@ public class UserCrudController {
     public String addUser(Model model) {
         User user = new User();
         model.addAttribute(user);
-        return "/user/crud/edit";
+        return "/user/crud/add";
+    }
+    @PostMapping("/update")
+    public String updateUser(@Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "/user/crud/edit";
+        }
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+        userRepository.save(user);
+        return "redirect: /user/crud/showall";
     }
 
     @GetMapping("/edit/{id}")
