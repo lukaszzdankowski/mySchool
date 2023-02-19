@@ -38,19 +38,19 @@ public class Reply {
         this.task = task;
     }
 
-    public double getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(double answer) {
-        this.answer = answer;
-    }
-
     public Homework getHomework() {
         return homework;
     }
 
     public void setHomework(Homework homework) {
         this.homework = homework;
+    }
+
+    public Double getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(Double answer) {
+        this.answer = answer;
     }
 }

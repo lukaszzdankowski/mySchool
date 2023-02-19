@@ -2,6 +2,11 @@ package my.school;
 
 import my.school.exam.ExamConverter;
 import my.school.exam.ExamRepository;
+import my.school.homework.HomeworkConverter;
+import my.school.homework.HomeworkRepository;
+import my.school.reply.Reply;
+import my.school.reply.ReplyConverter;
+import my.school.reply.ReplyRepository;
 import my.school.task.TaskConverter;
 import my.school.task.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +37,10 @@ public class AppConfig implements WebMvcConfigurer {
     private TaskRepository taskRepository;
     @Autowired
     private ExamRepository examRepository;
+    @Autowired
+    private HomeworkRepository homeworkRepository;
+    @Autowired
+    private ReplyRepository replyRepository;
 
     @Bean
     public ViewResolver viewResolver() {
@@ -64,6 +73,8 @@ public class AppConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(taskConverter());
         registry.addConverter(examConverter());
+        registry.addConverter(homeworkConverter());
+        registry.addConverter(replyConverter());
     }
     @Bean
     public TaskConverter taskConverter(){
@@ -73,4 +84,13 @@ public class AppConfig implements WebMvcConfigurer {
     public ExamConverter examConverter(){
         return new ExamConverter(examRepository);
     }
+    @Bean
+    public HomeworkConverter homeworkConverter() {
+        return new HomeworkConverter(homeworkRepository);
+    }
+    @Bean
+    public ReplyConverter replyConverter(){
+        return new ReplyConverter(replyRepository);
+    }
+
 }
