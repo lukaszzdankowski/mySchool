@@ -15,4 +15,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Modifying
     @Query(value = "delete from exam_tasks where task_id = ?1", nativeQuery = true)
     void detachExamsFromTask(Long id);
+
+    @Query(value = "select t.result from Task t where t.id = :id")
+    double getResultFromTask(@Param("id") Long id);
 }

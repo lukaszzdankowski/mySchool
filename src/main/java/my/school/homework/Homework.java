@@ -20,6 +20,7 @@ public class Homework {
 
     @ManyToOne
     private User user;
+    private Double score;
 
     @OneToMany(mappedBy = "homework")
     private List<Reply> replies = new ArrayList<>();
@@ -58,5 +59,13 @@ public class Homework {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
     }
 }

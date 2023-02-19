@@ -4,6 +4,8 @@ import my.school.homework.Homework;
 import my.school.homework.HomeworkRepository;
 import my.school.reply.Reply;
 import my.school.reply.ReplyRepository;
+import my.school.task.TaskRepository;
+import my.school.testing.ConsoleColors;
 import my.school.user.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,16 +15,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class StudentController {
     private final HomeworkRepository homeworkRepository;
     private final ReplyRepository replyRepository;
+    private final TaskRepository taskRepository;
 
-    public StudentController(HomeworkRepository homeworkRepository, ReplyRepository replyRepository) {
+    public StudentController(HomeworkRepository homeworkRepository, ReplyRepository replyRepository, TaskRepository taskRepository) {
         this.homeworkRepository = homeworkRepository;
         this.replyRepository = replyRepository;
+        this.taskRepository = taskRepository;
     }
 
     @GetMapping("/student/home")
@@ -50,14 +53,20 @@ public class StudentController {
         model.addAttribute(homework);
         return "/student/attempt";
     }
+
     @PostMapping("/student/attempt")
-    private String homeworkSave(Homework homework){
+    private String homeworkSave(Homework homework) {
+        int counter = 0;
+        double sum = 0;
         for (Reply reply : homework.getReplies()) {
+            counter++;
+            if (reply.getAnswer() == taskRepository.getResultFromTask(reply.getTask().getId())) {
+                sum += 1;
+            }
             replyRepository.save(reply);
         }
-
-//        homeworkRepository.save(homework);
-
+        homework.setScore(sum / counter);
+        homeworkRepository.save(homework);
         return "redirect: /student/home";
     }
 }

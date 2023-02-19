@@ -24,9 +24,13 @@
             <td>${item.task.content}</td>
             <td><form:input path="replies[${vs.index}].answer"/></td>
             </tr>
-<%--            <form:hidden path="replies[${vs.index}].homework"/>--%>
-            <form:hidden path="replies[${vs.index}].task"/>
+            <form:hidden path="replies[${vs.index}].homework.id"/>
+            <form:hidden path="replies[${vs.index}].task.id"/>
+            <form:hidden path="replies[${vs.index}].id"/>
         </c:forEach>
+        <form:hidden path="id"/>
+        <form:hidden path="exam.id"/>
+        <form:hidden path="user.id"/>
         <input type="submit" value="Send Homework" />
     </form:form>
     </tbody>
