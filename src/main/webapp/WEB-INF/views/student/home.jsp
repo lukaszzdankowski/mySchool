@@ -18,7 +18,20 @@ Your homeworks:
     <c:forEach items="${studentshomeworks}" var="item">
         <tr>
             <td>${item.exam.title}</td>
-            <td><a href="/student/attempt/${item.id}">ATTEMPT</a></td>
+<%--            <td><a href="/student/attempt/${item.id}">ATTEMPT</a></td>--%>
+
+            <td>
+            <c:choose>
+                <c:when test="${not empty item.score}">
+                    ${item.score}
+                </c:when>
+                <c:otherwise>
+                    <a href="/student/attempt/${item.id}">ATTEMPT</a>
+                </c:otherwise>
+            </c:choose>
+            </td>
+
+
         </tr>
     </c:forEach>
 </table>

@@ -16,6 +16,7 @@
     <th>id</th>
     <th>based on exam</th>
     <th>student</th>
+    <th>score</th>
     <th>show link</th>
     <th>edit link</th>
     <th>remove link</th>
@@ -26,6 +27,7 @@
             <td>${item.id}</td>
             <td>${item.exam.title}</td>
             <td>${item.user.name}</td>
+            <td>${item.score}</td>
             <td><a href="/homework/crud/show/${item.id}">Show homework</a></td>
             <td><a href="/homework/crud/edit/${item.id}">Edit homework</a></td>
             <td><a href="/homework/crud/remove/${item.id}">Remove homework</a></td>
