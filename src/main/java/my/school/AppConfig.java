@@ -1,5 +1,7 @@
 package my.school;
 
+import my.school.exam.ExamConverter;
+import my.school.exam.ExamRepository;
 import my.school.task.TaskConverter;
 import my.school.task.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ import javax.persistence.EntityManagerFactory;
 public class AppConfig implements WebMvcConfigurer {
     @Autowired
     private TaskRepository taskRepository;
+    @Autowired
+    private ExamRepository examRepository;
 
     @Bean
     public ViewResolver viewResolver() {
@@ -59,9 +63,14 @@ public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(taskConverter());
+        registry.addConverter(examConverter());
     }
     @Bean
     public TaskConverter taskConverter(){
         return new TaskConverter(taskRepository);
+    }
+    @Bean
+    public ExamConverter examConverter(){
+        return new ExamConverter(examRepository);
     }
 }

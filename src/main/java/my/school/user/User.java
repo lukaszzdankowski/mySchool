@@ -1,9 +1,13 @@
 package my.school.user;
 
+import my.school.homework.Homework;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -22,6 +26,9 @@ public class User {
     private String name;
 
     private String role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Homework> homeworks = new ArrayList<>();
 
     public User() {
     }
@@ -64,5 +71,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Homework> getHomeworks() {
+        return homeworks;
+    }
+
+    public void setHomeworks(List<Homework> homeworks) {
+        this.homeworks = homeworks;
     }
 }
