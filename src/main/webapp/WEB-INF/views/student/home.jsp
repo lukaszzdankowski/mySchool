@@ -18,7 +18,9 @@ Your homeworks:
     <c:forEach items="${studentshomeworks}" var="item">
         <tr>
             <td>${item.exam.title}</td>
-<%--            <td><a href="/student/attempt/${item.id}">ATTEMPT</a></td>--%>
+
+
+<%--            <td><a href="/student/attempt/${item.id}">ATTEMPT</a></td> do testowania getResult--%>
 
             <td>
             <c:choose>

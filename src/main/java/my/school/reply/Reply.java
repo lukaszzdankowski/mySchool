@@ -53,4 +53,14 @@ public class Reply {
     public void setAnswer(Double answer) {
         this.answer = answer;
     }
+
+    @Override
+    public String toString() {
+        return "Reply{" +
+                "id=" + id +
+                ", task=" + task +
+                ", homework=" + homework +
+                ", answer=" + answer +
+                '}';
+    }
 }

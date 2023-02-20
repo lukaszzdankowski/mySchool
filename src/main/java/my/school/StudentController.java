@@ -7,6 +7,8 @@ import my.school.reply.ReplyRepository;
 import my.school.task.TaskRepository;
 import my.school.testing.ConsoleColors;
 import my.school.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,11 +61,12 @@ public class StudentController {
         int counter = 0;
         double sum = 0;
         for (Reply reply : homework.getReplies()) {
+            replyRepository.save(reply);
             counter++;
             if (reply.getAnswer() == taskRepository.getResultFromTask(reply.getTask().getId())) {
+
                 sum += 1;
             }
-            replyRepository.save(reply);
         }
         homework.setScore(sum / counter);
         homeworkRepository.save(homework);
