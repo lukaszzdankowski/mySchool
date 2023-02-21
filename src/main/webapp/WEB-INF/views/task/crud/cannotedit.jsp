@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <title>Show Task</title>
+    <title>Cannot edit Task</title>
     <style>
         table, th, td {
             border: 1px solid black;
@@ -11,6 +11,7 @@
     </style>
 </head>
 <body>
+<h1>You cannot edit task that is already used in Homeworks</h1>
 <h1>Task details</h1>
 <table>
     <tr>
@@ -25,19 +26,6 @@
         <th>result</th>
         <td>${task.result}</td>
     </tr>
-</table>
-<br>
-<table>
-    <tr><th colspan="5">This task is used in Exams:</th></tr>
-<c:forEach items="${task.exams}" var="item">
-    <tr>
-        <td>${item.id}</td>
-        <td>${item.title}</td>
-        <td><a href="/exam/crud/show/${item.id}">Show exam</a></td>
-        <td><a href="/exam/crud/edit/${item.id}">Edit exam</a></td>
-        <td><a href="/exam/crud/remove/${item.id}">Remove exam</a></td>
-    </tr>
-</c:forEach>
 </table>
 <br>
 <table>
