@@ -80,6 +80,10 @@ public class HomeworkCrudController {
     }
     @GetMapping("/delete/{id}")
     public String deleteHomework(@PathVariable Long id){
+        Homework homework = homeworkRepository.findById(id).orElse(null);
+        if (homework == null){
+            return "/homework/crud/nohomework";
+        }
         homeworkRepository.detachRepliesFromHomework(id);
         homeworkRepository.deleteById(id);
         return "redirect: /homework/crud/showall";

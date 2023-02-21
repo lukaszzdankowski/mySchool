@@ -10,5 +10,4 @@ import java.util.List;
 @Repository
 @Transactional
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
-    List<Reply> findByHomeworkId(Long homeworkId);
 }

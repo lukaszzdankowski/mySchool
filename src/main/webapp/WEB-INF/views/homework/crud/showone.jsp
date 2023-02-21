@@ -29,6 +29,10 @@
         <th>score</th>
         <td>${homework.score}</td>
     </tr>
+    <tr>
+        <th>remove link</th>
+        <td><a href="/homework/crud/remove/${homework.id}">Remove homework</a></td>
+    </tr>
 </table>
 <br>
     <table>
