@@ -68,4 +68,13 @@ public class HomeworkCrudController {
     public String addHomework(){
         return "/homework/crud/add";
     }
+    @GetMapping("/show/{id}")
+    public String showHomework(@PathVariable Long id, Model model){
+        Homework homework = homeworkRepository.getHomeworkWithReplies(id);
+        if (homework == null){
+            return "/homework/crud/nohomework";
+        }
+        model.addAttribute(homework);
+        return "/homework/crud/showone";
+    }
 }
