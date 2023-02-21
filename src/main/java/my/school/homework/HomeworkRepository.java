@@ -23,4 +23,7 @@ public interface HomeworkRepository extends JpaRepository<Homework, Long> {
 
     @Query(value = "select * from homeworks where exam_id = ?1",nativeQuery = true)
     List<Homework> getAllHomeworksForExamId(Long id);
+
+    @Query(value = "select * from homeworks where user_id=?1",nativeQuery = true)
+    List<Homework> getAllHomeworksForStudentId(Long id);
 }

@@ -1,6 +1,7 @@
 package my.school.user;
 
-import my.school.testing.ConsoleColors;
+import my.school.homework.Homework;
+import my.school.homework.HomeworkRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,13 +19,15 @@ import java.util.stream.Stream;
 @RequestMapping("/user/crud")
 public class UserCrudController {
     private final UserRepository userRepository;
+    private final HomeworkRepository homeworkRepository;
 
-    public UserCrudController(UserRepository userRepository) {
+    public UserCrudController(UserRepository userRepository, HomeworkRepository homeworkRepository) {
         this.userRepository = userRepository;
+        this.homeworkRepository = homeworkRepository;
     }
 
     @ModelAttribute("roles")
-    public Set<String> roles(){
+    public Set<String> roles() {
         return Stream.of("teacher", "student").collect(Collectors.toCollection(HashSet::new));
     }
 
@@ -38,11 +40,11 @@ public class UserCrudController {
 
     @PostMapping("/save")
     public String saveUser(@Valid User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "/user/crud/edit";
         }
         List<User> listOfUsersWithThisEmail = userRepository.findByEmail(user.getEmail());
-        if (listOfUsersWithThisEmail.size() != 0){
+        if (listOfUsersWithThisEmail.size() != 0) {
             return "/user/crud/emailduplicate";
         }
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
@@ -56,9 +58,10 @@ public class UserCrudController {
         model.addAttribute(user);
         return "/user/crud/add";
     }
+
     @PostMapping("/update")
     public String updateUser(@Valid User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "/user/crud/edit";
         }
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
@@ -83,11 +86,25 @@ public class UserCrudController {
             return "/user/crud/nouser";
         }
         model.addAttribute(user);
+        if ("student".equals(user.getRole())) {
+            List<Homework> homeworksInUse = homeworkRepository.getAllHomeworksForStudentId(user.getId());
+            model.addAttribute("homeworksInUse",homeworksInUse);
+        }
         return "/user/crud/showone";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return "/user/crud/nouser";
+        }
+        if ("student".equals(user.getRole())) {
+            for (Homework homework : homeworkRepository.getAllHomeworksForStudentId(id)) {
+                homeworkRepository.detachRepliesFromHomework(homework.getId());
+                homeworkRepository.delete(homework);
+            }
+        }
         userRepository.deleteById(id);
         return "redirect: /user/crud/showall";
     }
@@ -99,6 +116,10 @@ public class UserCrudController {
             return "/user/crud/nouser";
         }
         model.addAttribute(user);
+        if ("student".equals(user.getRole())) {
+            List<Homework> homeworksInUse = homeworkRepository.getAllHomeworksForStudentId(user.getId());
+            model.addAttribute("homeworksInUse",homeworksInUse);
+        }
         return "/user/crud/remove";
     }
 }
