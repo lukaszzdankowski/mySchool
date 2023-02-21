@@ -35,6 +35,27 @@
             </tr>
         </c:forEach>
     </table>
+<br>
+<table>
+    <tr><th colspan="5">This Exam is used in following Homeworks:</th></tr>
+    <tr>
+        <th>id</th>
+        <th>Student's name</th>
+        <th>score</th>
+        <th>show link</th>
+        <th>remove link</th>
+    </tr>
+    <c:forEach items="${homeworksInUse}" var="item">
+        <tr>
+            <td>${item.id}</td>
+            <td>${item.user.name}</td>
+            <td>${item.score}</td>
+            <td><a href="/homework/crud/show/${item.id}">Show homework</a></td>
+            <td><a href="/homework/crud/remove/${item.id}">Remove homework</a></td>
+        </tr>
+    </c:forEach>
+</table>
+<a href="/exam/crud/remove/${exam.id}">Remove exam</a><br>
 <a href="/exam/crud/showall">Return to Exam list</a><br>
 </body>
 </html>

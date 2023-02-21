@@ -11,6 +11,9 @@
     </style>
 </head>
 <body>
+Removing Exam
+<h1>Removing Exam will not remove contained Tasks</h1>
+<h1>If Exam is in use, removing it will also remove corresponding Homeworks. Check below</h1>
 <table>
     <tr>
         <th>id</th>
@@ -31,6 +34,26 @@
             <td>${item.id}</td>
             <td>${item.content}</td>
             <td>${item.result}</td>
+        </tr>
+    </c:forEach>
+</table>
+<br>
+<table>
+    <tr><th colspan="5">This Exam is used in following Homeworks:</th></tr>
+    <tr>
+        <th>id</th>
+        <th>Student's name</th>
+        <th>score</th>
+        <th>show link</th>
+        <th>remove link</th>
+    </tr>
+    <c:forEach items="${homeworksInUse}" var="item">
+        <tr>
+            <td>${item.id}</td>
+            <td>${item.user.name}</td>
+            <td>${item.score}</td>
+            <td><a href="/homework/crud/show/${item.id}">Show homework</a></td>
+            <td><a href="/homework/crud/remove/${item.id}">Remove homework</a></td>
         </tr>
     </c:forEach>
 </table>

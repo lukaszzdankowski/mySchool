@@ -68,4 +68,14 @@ public class Homework {
     public void setScore(Double score) {
         this.score = score;
     }
+
+    @Override
+    public String toString() {
+        return "Homework{" +
+                "id=" + id +
+                ", exam=" + exam +
+                ", user=" + user +
+                ", score=" + score +
+                '}';
+    }
 }

@@ -1,5 +1,6 @@
 package my.school.homework;
 
+import my.school.exam.Exam;
 import my.school.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,4 +20,7 @@ public interface HomeworkRepository extends JpaRepository<Homework, Long> {
     @Modifying
     @Query(value = "delete from replies where homework_id = ?1",nativeQuery = true)
     void detachRepliesFromHomework(Long id);
+
+    @Query(value = "select * from homeworks where exam_id = ?1",nativeQuery = true)
+    List<Homework> getAllHomeworksForExamId(Long id);
 }
