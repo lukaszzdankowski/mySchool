@@ -68,6 +68,7 @@ public class HomeworkCrudController {
     public String addHomework(){
         return "/homework/crud/add";
     }
+
     @GetMapping("/show/{id}")
     public String showHomework(@PathVariable Long id, Model model){
         Homework homework = homeworkRepository.getHomeworkWithReplies(id);
@@ -76,5 +77,20 @@ public class HomeworkCrudController {
         }
         model.addAttribute(homework);
         return "/homework/crud/showone";
+    }
+    @GetMapping("/delete/{id}")
+    public String deleteHomework(@PathVariable Long id){
+        homeworkRepository.detachRepliesFromHomework(id);
+        homeworkRepository.deleteById(id);
+        return "redirect: /homework/crud/showall";
+    }
+    @GetMapping("/remove/{id}")
+    public String removeHomework(@PathVariable Long id, Model model){
+        Homework homework = homeworkRepository.findById(id).orElse(null);
+        if (homework == null){
+            return "/homework/crud/nohomework";
+        }
+        model.addAttribute(homework);
+        return "/homework/crud/remove";
     }
 }
