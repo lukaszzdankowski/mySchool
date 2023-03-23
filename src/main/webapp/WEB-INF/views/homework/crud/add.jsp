@@ -8,17 +8,17 @@
 <body>
 <form action="/homework/crud/save" method="post">
     <c:forEach items="${studentlist}" var="item">
-        <input type="checkbox" id="item" name="students" value="${item.id}">
+        <input type="checkbox" id="item" name="studentsId" value="${item.id}">
         <label for="item"> ${item.name}</label><br>
     </c:forEach>
     <label for="exam">Choose Exam: </label>
-    <select name="exam" id="exam">
+    <select name="examId" id="exam">
         <c:forEach items="${examlist}" var="item">
             <option value="${item.id}">${item.title}</option>
         </c:forEach>
     </select>
     <input type="submit" value="Save Homework"/>
 </form>
-<a href="/homework/crud/showall">Return to Exam list</a><br>
+<a href="/homework/crud/showall">Return to Homework list</a><br>
 </body>
 </html>

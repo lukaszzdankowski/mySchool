@@ -5,7 +5,6 @@ import my.school.homework.HomeworkRepository;
 import my.school.homework.HomeworkService;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -37,7 +36,6 @@ public class ExamService {
         examRepository.save(exam);
     }
 
-    @Transactional
     public void deleteExamWithHomeworks(Exam exam) {
         List<Homework> homeworksInUse = homeworkRepository.findAllByExamId(exam.getId());
         for (Homework homework : homeworksInUse) {
