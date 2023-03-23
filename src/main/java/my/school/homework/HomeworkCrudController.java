@@ -1,11 +1,8 @@
 package my.school.homework;
 
 import my.school.exam.Exam;
-import my.school.exam.ExamRepository;
 import my.school.exam.ExamService;
-import my.school.reply.ReplyRepository;
 import my.school.user.User;
-import my.school.user.UserRepository;
 import my.school.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,19 +13,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/homework/crud")
 public class HomeworkCrudController {
-    private final HomeworkRepository homeworkRepository;
-    private final ExamRepository examRepository;
-    private final ReplyRepository replyRepository;
-    private final UserRepository userRepository;
     private final ExamService examService;
     private final UserService userService;
     private final HomeworkService homeworkService;
 
-    public HomeworkCrudController(HomeworkRepository homeworkRepository, ExamRepository examRepository, ReplyRepository replyRepository, UserRepository userRepository, ExamService examService, UserService userService, HomeworkService homeworkService) {
-        this.homeworkRepository = homeworkRepository;
-        this.examRepository = examRepository;
-        this.replyRepository = replyRepository;
-        this.userRepository = userRepository;
+    public HomeworkCrudController(ExamService examService, UserService userService, HomeworkService homeworkService) {
         this.examService = examService;
         this.userService = userService;
         this.homeworkService = homeworkService;

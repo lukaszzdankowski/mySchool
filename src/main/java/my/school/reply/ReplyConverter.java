@@ -10,7 +10,8 @@ public class ReplyConverter implements Converter<String, Reply> {
     public ReplyConverter(ReplyRepository replyRepository) {
         this.replyRepository = replyRepository;
     }
-    public Reply convert(String source){
+
+    public Reply convert(String source) {
         return replyRepository.findById(Long.parseLong(source)).orElse(null);
     }
 }

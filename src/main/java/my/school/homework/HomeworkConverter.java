@@ -10,8 +10,9 @@ public class HomeworkConverter implements Converter<String, Homework> {
     public HomeworkConverter(HomeworkRepository homeworkRepository) {
         this.homeworkRepository = homeworkRepository;
     }
+
     @Override
-    public Homework convert(String source){
+    public Homework convert(String source) {
         return homeworkRepository.findById(Long.parseLong(source)).orElse(null);
     }
 }
