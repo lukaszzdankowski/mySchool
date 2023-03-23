@@ -4,14 +4,12 @@ import my.school.exam.Exam;
 import my.school.exam.ExamRepository;
 import my.school.reply.Reply;
 import my.school.reply.ReplyRepository;
-import my.school.testing.ConsoleColors;
 import my.school.user.User;
 import my.school.user.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
