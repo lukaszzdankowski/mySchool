@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 
-@Repository
-@Transactional
+
 public interface TaskRepository extends JpaRepository<Task, Long> {
+    @Transactional
     @Modifying
     @Query(value = "delete from exam_tasks where task_id = ?1", nativeQuery = true)
     void detachExamsFromTask(Long id);

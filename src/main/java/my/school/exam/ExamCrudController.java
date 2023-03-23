@@ -1,10 +1,9 @@
 package my.school.exam;
 
 import my.school.homework.Homework;
-import my.school.homework.HomeworkRepository;
+import my.school.homework.HomeworkService;
 import my.school.task.Task;
-import my.school.task.TaskRepository;
-import my.school.testing.ConsoleColors;
+import my.school.task.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,51 +15,49 @@ import java.util.List;
 @Controller
 @RequestMapping("/exam/crud")
 public class ExamCrudController {
-    private final ExamRepository examRepository;
-    private final TaskRepository taskRepository;
-    private final HomeworkRepository homeworkRepository;
+    private final TaskService taskService;
+    private final ExamService examService;
+    private final HomeworkService homeworkService;
 
-    public ExamCrudController(ExamRepository examRepository, TaskRepository taskRepository, HomeworkRepository homeworkRepository) {
-        this.examRepository = examRepository;
-        this.taskRepository = taskRepository;
-        this.homeworkRepository = homeworkRepository;
+    public ExamCrudController(TaskService taskService, ExamService examService, HomeworkService homeworkService) {
+        this.taskService = taskService;
+        this.examService = examService;
+        this.homeworkService = homeworkService;
     }
-    @ModelAttribute("tasklist")
-    public List<Task> taskList(){
-        return taskRepository.findAll();
+
+    @ModelAttribute("tasklist")//TODO do skasowania - lepiej oddzielnie w metodach
+    public List<Task> taskList() {
+        return taskService.getAllTasks();
     }
 
     @GetMapping("/showall")
     public String showAllExams(Model model) {
-        List<Exam> exams = examRepository.findAll();
+        List<Exam> exams = examService.getAllExams();
         model.addAttribute("exams", exams);
         return "exam/crud/showall";
     }
 
     @GetMapping("/show/{id}")
     public String showExam(@PathVariable Long id, Model model) {
-        Exam exam = examRepository.findById(id).orElse(null);
+        Exam exam = examService.findExamById(id);//TODO powtórzenie w (editExam,removeExam)
         if (exam == null) {
             return "/exam/crud/noexam";
         }
         model.addAttribute(exam);
-        List<Homework> homeworksInUse = homeworkRepository.getAllHomeworksForExamId(id);
-        model.addAttribute("homeworksInUse",homeworksInUse);
+        List<Homework> homeworksInUse = homeworkService.getAllHomeworksForExamId(id);
+        model.addAttribute("homeworksInUse", homeworksInUse);
         return "/exam/crud/showone";
     }
+
     @PostMapping("/save")
-    public String saveExam(@Valid Exam exam, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
+    public String saveExam(@Valid Exam exam, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "/exam/crud/edit";
         }
-        List<Homework> homeworksInUse = homeworkRepository.getAllHomeworksForExamId(exam.getId());
-        if (homeworksInUse.size() != 0){
-            exam.setId(0L);
-            exam.setTitle(exam.getTitle()+"_copy");
-        }
-        examRepository.save(exam);
+        examService.saveExamOrCreateNew(exam);
         return "redirect: /exam/crud/showall";
     }
+
     @GetMapping("/add")
     public String addExam(Model model) {
         Exam exam = new Exam();
@@ -70,38 +67,35 @@ public class ExamCrudController {
 
     @GetMapping("/edit/{id}")
     public String editExam(@PathVariable Long id, Model model) {
-        Exam exam = examRepository.findById(id).orElse(null);
+        Exam exam = examService.findExamById(id);
         if (exam == null) {
             return "/exam/crud/noexam";
         }
         model.addAttribute(exam);
-        List<Homework> homeworksInUse = homeworkRepository.getAllHomeworksForExamId(id);
-        model.addAttribute("homeworksInUse",homeworksInUse);
+        List<Homework> homeworksInUse = homeworkService.getAllHomeworksForExamId(id);
+        model.addAttribute("homeworksInUse", homeworksInUse);
         return "/exam/crud/edit";
     }
+
     @GetMapping("/delete/{id}")
     public String deleteExam(@PathVariable Long id) {
-        Exam exam = examRepository.findById(id).orElse(null);
+        Exam exam = examService.findExamById(id);
         if (exam == null) {
             return "/exam/crud/noexam";
         }
-        List<Homework> homeworksInUse = homeworkRepository.getAllHomeworksForExamId(id);
-        for (Homework homework : homeworksInUse) {
-            homeworkRepository.detachRepliesFromHomework(homework.getId());
-            homeworkRepository.deleteById(homework.getId());
-        }
-        examRepository.deleteById(id);
+        examService.deleteExamWithHomeworks(exam);
         return "redirect: /exam/crud/showall";
     }
+
     @GetMapping("/remove/{id}")
     public String removeExam(@PathVariable Long id, Model model) {
-        Exam exam = examRepository.findById(id).orElse(null);
+        Exam exam = examService.findExamById(id);
         if (exam == null) {
             return "/exam/crud/noexam";
         }
         model.addAttribute(exam);
-        List<Homework> homeworksInUse = homeworkRepository.getAllHomeworksForExamId(id);
-        model.addAttribute("homeworksInUse",homeworksInUse);
+        List<Homework> homeworksInUse = homeworkService.getAllHomeworksForExamId(id);
+        model.addAttribute("homeworksInUse", homeworksInUse);
         return "/exam/crud/remove";
     }
 }

@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@Repository
-@Transactional
+
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
+
+    void deleteAllByHomeworkId(Long id);
 }
