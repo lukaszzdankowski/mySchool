@@ -67,7 +67,7 @@ public class HomeworkService {
     }
 
     public List<Homework> getAllHomeworksForUser(User user) {
-        return homeworkRepository.findByUser(user);
+        return homeworkRepository.findAllByUser(user);
     }
 
     @Transactional

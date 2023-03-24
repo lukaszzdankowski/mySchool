@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
+
     @Transactional
     @Modifying
     @Query(value = "delete from exam_tasks where task_id = ?1", nativeQuery = true)
