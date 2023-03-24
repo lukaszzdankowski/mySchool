@@ -1,8 +1,7 @@
 package my.school.user;
 
 import my.school.homework.Homework;
-import my.school.homework.HomeworkRepository;
-import org.mindrot.jbcrypt.BCrypt;
+import my.school.homework.HomeworkService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,22 +17,22 @@ import java.util.stream.Stream;
 @Controller
 @RequestMapping("/user/crud")
 public class UserCrudController {
-    private final UserRepository userRepository;
-    private final HomeworkRepository homeworkRepository;
+    private final UserService userService;
+    private final HomeworkService homeworkService;
 
-    public UserCrudController(UserRepository userRepository, HomeworkRepository homeworkRepository) {
-        this.userRepository = userRepository;
-        this.homeworkRepository = homeworkRepository;
+    public UserCrudController(UserService userService, HomeworkService homeworkService) {
+        this.userService = userService;
+        this.homeworkService = homeworkService;
     }
 
-    @ModelAttribute("roles")
+    @ModelAttribute("roles")// TODO
     public Set<String> roles() {
         return Stream.of("teacher", "student").collect(Collectors.toCollection(HashSet::new));
     }
 
     @GetMapping("/showall")
     public String showAllUsers(Model model) {
-        List<User> users = userRepository.findAll();
+        List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "/user/crud/showall";
     }
@@ -43,12 +42,10 @@ public class UserCrudController {
         if (bindingResult.hasErrors()) {
             return "/user/crud/edit";
         }
-        List<User> listOfUsersWithThisEmail = userRepository.findByEmail(user.getEmail());
-        if (listOfUsersWithThisEmail.size() != 0) {
+        if (userService.checkIfEmailUsed(user.getEmail())) {
             return "/user/crud/emailduplicate";
         }
-        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-        userRepository.save(user);
+        userService.hashPasswordAndSaveUser(user);
         return "redirect: /user/crud/showall";
     }
 
@@ -64,14 +61,13 @@ public class UserCrudController {
         if (bindingResult.hasErrors()) {
             return "/user/crud/edit";
         }
-        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-        userRepository.save(user);
+        userService.hashPasswordAndSaveUser(user);
         return "redirect: /user/crud/showall";
     }
 
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable Long id, Model model) {
-        User user = userRepository.findById(id).orElse(null);
+        User user = userService.getUser(id);
         if (user == null) {
             return "/user/crud/nouser";
         }
@@ -81,44 +77,38 @@ public class UserCrudController {
 
     @GetMapping("/show/{id}")
     public String showUser(@PathVariable Long id, Model model) {
-        User user = userRepository.findById(id).orElse(null);
+        User user = userService.getUser(id);//TODO - routing lepszy
         if (user == null) {
             return "/user/crud/nouser";
         }
         model.addAttribute(user);
         if ("student".equals(user.getRole())) {
-            List<Homework> homeworksInUse = homeworkRepository.getAllHomeworksForStudentId(user.getId());
-            model.addAttribute("homeworksInUse",homeworksInUse);
+            List<Homework> homeworksInUse = homeworkService.getAllHomeworksForUser(user);
+            model.addAttribute("homeworksInUse", homeworksInUse);
         }
         return "/user/crud/showone";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
-        User user = userRepository.findById(id).orElse(null);
+        User user = userService.getUser(id);
         if (user == null) {
             return "/user/crud/nouser";
         }
-        if ("student".equals(user.getRole())) {
-            for (Homework homework : homeworkRepository.getAllHomeworksForStudentId(id)) {
-                homeworkRepository.detachRepliesFromHomework(homework.getId());
-                homeworkRepository.delete(homework);
-            }
-        }
-        userRepository.deleteById(id);
+        userService.deleteUserWithHomeworks(user);
         return "redirect: /user/crud/showall";
     }
 
     @GetMapping("/remove/{id}")
     public String removeUser(@PathVariable Long id, Model model) {
-        User user = userRepository.findById(id).orElse(null);
+        User user = userService.getUser(id);
         if (user == null) {
             return "/user/crud/nouser";
         }
         model.addAttribute(user);
         if ("student".equals(user.getRole())) {
-            List<Homework> homeworksInUse = homeworkRepository.getAllHomeworksForStudentId(user.getId());
-            model.addAttribute("homeworksInUse",homeworksInUse);
+            List<Homework> homeworksInUse = homeworkService.getAllHomeworksForUser(user);
+            model.addAttribute("homeworksInUse", homeworksInUse);
         }
         return "/user/crud/remove";
     }

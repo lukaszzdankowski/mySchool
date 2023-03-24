@@ -28,7 +28,7 @@ public class LoginController {
     public String authorizing(HttpServletRequest request) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        List<User> listOfUsersWithThisEmail = userRepository.findByEmail(email);
+        List<User> listOfUsersWithThisEmail = userRepository.findALLByEmail(email);
         if (listOfUsersWithThisEmail.size() == 0) {
             return "/nouser";
         }

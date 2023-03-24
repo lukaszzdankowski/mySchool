@@ -3,6 +3,7 @@ package my.school.homework;
 import my.school.exam.ExamRepository;
 import my.school.reply.Reply;
 import my.school.reply.ReplyRepository;
+import my.school.user.User;
 import my.school.user.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -59,5 +60,17 @@ public class HomeworkService {
     public void deleteHomeworkWithReplies(Homework homework) {
         replyRepository.deleteAllByHomeworkId(homework.getId());
         homeworkRepository.delete(homework);
+    }
+
+    public List<Homework> getAllHomeworksForUser(User user) {
+        return homeworkRepository.findByUser(user);
+    }
+
+    @Transactional
+    public void deleteAllHomeworksForUserId(Long userId) {
+        for (Homework homework : getAllHomeworksForUser(userRepository.findById(userId).orElse(null))) {
+            deleteHomeworkWithReplies(homework);
+        }
+
     }
 }

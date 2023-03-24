@@ -1,7 +1,6 @@
 package my.school.task;
 
 import my.school.homework.Homework;
-import my.school.homework.HomeworkRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,13 +15,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/task/crud")
 public class TaskCrudController {
-    private final TaskRepository taskRepository;
-    private final HomeworkRepository homeworkRepository;
     private final TaskService taskService;
 
-    public TaskCrudController(TaskRepository taskRepository, HomeworkRepository homeworkRepository, TaskService taskService) {
-        this.taskRepository = taskRepository;
-        this.homeworkRepository = homeworkRepository;
+    public TaskCrudController(TaskService taskService) {
         this.taskService = taskService;
     }
 
