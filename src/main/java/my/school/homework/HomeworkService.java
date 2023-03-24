@@ -36,7 +36,7 @@ public class HomeworkService {
         return homeworkRepository.getHomeworkWithReplies(homeworkId);
     }
 
-    public void saveHomework(long[] studentsId, long examId) {
+    public void saveNewHomework(long[] studentsId, long examId) {
         for (long studentId : studentsId) {
             Homework homework = new Homework();
             homework.setUser(userRepository.findById(studentId).orElseThrow(RuntimeException::new));
@@ -50,6 +50,10 @@ public class HomeworkService {
                         replyRepository.save(reply);
                     });
         }
+    }
+
+    public void saveHomework(Homework homework) {
+        homeworkRepository.save(homework);
     }
 
     public List<Homework> getAllHomeworksForExamId(Long id) {

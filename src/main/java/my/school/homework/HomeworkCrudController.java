@@ -43,7 +43,7 @@ public class HomeworkCrudController {
     @PostMapping("/save")
     public String saveHomework(@RequestParam long[] studentsId,
                                @RequestParam long examId) {
-        homeworkService.saveHomework(studentsId, examId);
+        homeworkService.saveNewHomework(studentsId, examId);
         return "redirect: /homework/crud/showall";
     }
 

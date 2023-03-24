@@ -51,4 +51,8 @@ public class TaskService {
         taskRepository.detachTaskFromExam(task.getId());
         taskRepository.delete(task);
     }
+
+    public double getResultFromTask(Long taskId) {
+        return taskRepository.getResultFromTask(taskId);
+    }
 }

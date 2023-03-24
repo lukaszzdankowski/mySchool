@@ -1,10 +1,10 @@
 package my.school;
 
 import my.school.homework.Homework;
-import my.school.homework.HomeworkRepository;
+import my.school.homework.HomeworkService;
 import my.school.reply.Reply;
-import my.school.reply.ReplyRepository;
-import my.school.task.TaskRepository;
+import my.school.reply.ReplyService;
+import my.school.task.TaskService;
 import my.school.user.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,25 +17,25 @@ import java.util.List;
 
 @Controller
 public class StudentController {
-    private final HomeworkRepository homeworkRepository;
-    private final ReplyRepository replyRepository;
-    private final TaskRepository taskRepository;
+    private final HomeworkService homeworkService;
+    private final ReplyService replyService;
+    private final TaskService taskService;
 
-    public StudentController(HomeworkRepository homeworkRepository, ReplyRepository replyRepository, TaskRepository taskRepository) {
-        this.homeworkRepository = homeworkRepository;
-        this.replyRepository = replyRepository;
-        this.taskRepository = taskRepository;
+    public StudentController(HomeworkService homeworkService, ReplyService replyService, TaskService taskService) {
+        this.homeworkService = homeworkService;
+        this.replyService = replyService;
+        this.taskService = taskService;
     }
 
     @GetMapping("/student/home")
-    public String goHome(HttpSession session) {
+    public String goHome(HttpSession session, Model model) {
         Object loggedUserObj = session.getAttribute("loggedUser");
         if (loggedUserObj != null) {
             try {
                 User loggedUser = (User) loggedUserObj;
                 if ("student".equals(loggedUser.getRole())) {
-                    List<Homework> studentsHomeworks = homeworkRepository.findByUser(loggedUser);
-                    session.setAttribute("studentshomeworks", studentsHomeworks);
+                    List<Homework> homeworksInUse = homeworkService.getAllHomeworksForUser(loggedUser);
+                    model.addAttribute("studentshomeworks", homeworksInUse);
                     return "/student/home";
                 }
             } catch (Exception e) {
@@ -48,7 +48,7 @@ public class StudentController {
     @GetMapping("/student/attempt/{homeworkId}")
     private String homeworkAttempt(@PathVariable long homeworkId,
                                    Model model) {
-        Homework homework = homeworkRepository.getHomeworkWithReplies(homeworkId);
+        Homework homework = homeworkService.getHomeworkWithReplies(homeworkId);
         model.addAttribute(homework);
         return "/student/attempt";
     }
@@ -58,15 +58,14 @@ public class StudentController {
         int counter = 0;
         double sum = 0;
         for (Reply reply : homework.getReplies()) {
-            replyRepository.save(reply);
+            replyService.saveReply(reply);
             counter++;
-            if (reply.getAnswer() == taskRepository.getResultFromTask(reply.getTask().getId())) {
-
+            if (reply.getAnswer() == taskService.getResultFromTask(reply.getTask().getId())) {
                 sum += 1;
             }
         }
         homework.setScore(sum / counter);
-        homeworkRepository.save(homework);
+        homeworkService.saveHomework(homework);
         return "redirect: /student/home";
     }
 }

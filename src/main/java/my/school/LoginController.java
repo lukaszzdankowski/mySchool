@@ -1,7 +1,7 @@
 package my.school;
 
 import my.school.user.User;
-import my.school.user.UserRepository;
+import my.school.user.UserService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 public class LoginController {
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public LoginController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public LoginController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/login")
@@ -28,11 +27,10 @@ public class LoginController {
     public String authorizing(HttpServletRequest request) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        List<User> listOfUsersWithThisEmail = userRepository.findALLByEmail(email);
-        if (listOfUsersWithThisEmail.size() == 0) {
+        if (!userService.checkIfEmailUsed(email)) {
             return "/nouser";
         }
-        User user = listOfUsersWithThisEmail.get(0);
+        User user = userService.getUserByEmail(email);
         if (!BCrypt.checkpw(password, user.getPassword())) {
             return "/wrongpassword";
         }
@@ -46,8 +44,9 @@ public class LoginController {
             return "/error";
         }
     }
+
     @GetMapping("/logout")
-    public String logout(HttpSession session){
+    public String logout(HttpSession session) {
         session.invalidate();
         return "redirect: /login";
     }
