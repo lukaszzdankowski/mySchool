@@ -23,12 +23,12 @@ public class HomeworkCrudController {
         this.homeworkService = homeworkService;
     }
 
-    @ModelAttribute("examlist")//TODO tylko tam gdzie używam
+    @ModelAttribute("examlist")
     public List<Exam> examList() {
         return examService.getAllExams();
     }
 
-    @ModelAttribute("studentlist")//TODO tylko tam gdzie używam
+    @ModelAttribute("studentlist")
     public List<User> studentList() {
         return userService.getAllStudents();
     }

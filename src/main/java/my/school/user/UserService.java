@@ -46,7 +46,7 @@ public class UserService {
 
     public void deleteUserWithHomeworks(User user) {
         if ("student".equals(user.getRole())) {
-            homeworkService.deleteAllHomeworksForUserId(user.getId());//TODO - używać całych userów zamiast ID
+            homeworkService.deleteAllHomeworksForUserId(user.getId());
         }
         userRepository.delete(user);
     }

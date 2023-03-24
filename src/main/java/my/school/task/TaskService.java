@@ -34,16 +34,16 @@ public class TaskService {
     }
 
     public List<Homework> getAllHomeworksForTask(Task task) {
-        List<Homework> homeworksInUse = new ArrayList<>();//TODO - stream api
+        List<Homework> homeworksInUse = new ArrayList<>();
         for (Exam exam : task.getExams()) {
-            homeworksInUse.addAll(homeworkRepository.getAllHomeworksForExamId(exam.getId()));
+            homeworksInUse.addAll(homeworkRepository.findAllByExamId(exam.getId()));
         }
         return homeworksInUse;
     }
 
     public void deleteTaskWithHomeworksAndFromExam(Task task) {
-        for (Exam exam : task.getExams()) {//TODO - stream api
-            List<Homework> homeworksInUse = homeworkRepository.getAllHomeworksForExamId(exam.getId());
+        for (Exam exam : task.getExams()) {
+            List<Homework> homeworksInUse = homeworkRepository.findAllByExamId(exam.getId());
             for (Homework homework : homeworksInUse) {
                 homeworkService.deleteHomeworkWithReplies(homework);
             }

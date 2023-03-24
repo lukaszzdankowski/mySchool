@@ -25,7 +25,7 @@ public class ExamCrudController {
         this.homeworkService = homeworkService;
     }
 
-    @ModelAttribute("tasklist")//TODO do skasowania - lepiej oddzielnie w metodach
+    @ModelAttribute("tasklist")
     public List<Task> taskList() {
         return taskService.getAllTasks();
     }
@@ -39,7 +39,7 @@ public class ExamCrudController {
 
     @GetMapping("/show/{id}")
     public String showExam(@PathVariable Long id, Model model) {
-        Exam exam = examService.findExamById(id);//TODO powtórzenie w (editExam,removeExam)
+        Exam exam = examService.findExamById(id);
         if (exam == null) {
             return "/exam/crud/noexam";
         }

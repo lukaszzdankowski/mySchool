@@ -25,7 +25,7 @@ public class UserCrudController {
         this.homeworkService = homeworkService;
     }
 
-    @ModelAttribute("roles")// TODO
+    @ModelAttribute("roles")
     public Set<String> roles() {
         return Stream.of("teacher", "student").collect(Collectors.toCollection(HashSet::new));
     }
@@ -77,7 +77,7 @@ public class UserCrudController {
 
     @GetMapping("/show/{id}")
     public String showUser(@PathVariable Long id, Model model) {
-        User user = userService.getUser(id);//TODO - routing lepszy
+        User user = userService.getUser(id);
         if (user == null) {
             return "/user/crud/nouser";
         }

@@ -21,10 +21,6 @@ public interface HomeworkRepository extends JpaRepository<Homework, Long> {
     @Query(value = "delete from replies where homework_id = ?1", nativeQuery = true)
     void detachRepliesFromHomework(Long id);
 
-    @Query(value = "select * from homeworks where exam_id = ?1", nativeQuery = true)
-// TODO zastąpiona poniżej
-    List<Homework> getAllHomeworksForExamId(Long id);
-
     List<Homework> findAllByExamId(Long examId);
 
     long countAllByExamId(Long examId);

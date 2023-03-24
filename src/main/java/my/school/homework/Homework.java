@@ -25,7 +25,6 @@ public class Homework {
     @OneToMany(mappedBy = "homework")
     private List<Reply> replies = new ArrayList<>();
 
-
     public Homework() {
     }
 
@@ -67,15 +66,5 @@ public class Homework {
 
     public void setScore(Double score) {
         this.score = score;
-    }
-
-    @Override
-    public String toString() {
-        return "Homework{" +
-                "id=" + id +
-                ", exam=" + exam +
-                ", user=" + user +
-                ", score=" + score +
-                '}';
     }
 }

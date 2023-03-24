@@ -66,14 +66,4 @@ public class Task {
         Task task = (Task) o;
         return Objects.equals(id, task.id);
     }
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", result=" + result +
-                ", exams=" + exams +
-                '}';
-    }
 }
