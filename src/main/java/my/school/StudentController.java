@@ -6,6 +6,7 @@ import my.school.reply.Reply;
 import my.school.reply.ReplyService;
 import my.school.task.TaskService;
 import my.school.user.User;
+import my.school.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,29 +21,22 @@ public class StudentController {
     private final HomeworkService homeworkService;
     private final ReplyService replyService;
     private final TaskService taskService;
+    private final UserService userService;
 
-    public StudentController(HomeworkService homeworkService, ReplyService replyService, TaskService taskService) {
+    public StudentController(HomeworkService homeworkService, ReplyService replyService, TaskService taskService, UserService userService) {
         this.homeworkService = homeworkService;
         this.replyService = replyService;
         this.taskService = taskService;
+        this.userService = userService;
     }
 
     @GetMapping("/student/home")
     public String goHome(HttpSession session, Model model) {
-        Object loggedUserObj = session.getAttribute("loggedUser");
-        if (loggedUserObj != null) {
-            try {
-                User loggedUser = (User) loggedUserObj;
-                if ("student".equals(loggedUser.getRole())) {
-                    List<Homework> homeworksInUse = homeworkService.getAllHomeworksForUser(loggedUser);
-                    model.addAttribute("studentshomeworks", homeworksInUse);
-                    return "/student/home";
-                }
-            } catch (Exception e) {
-                return "/error";
-            }
-        }
-        return "/error";
+        AppUser appUser = (AppUser) session.getAttribute("appUser");
+        User user = userService.getUserByEmail(appUser.getEmail());
+        List<Homework> homeworksInUse = homeworkService.getAllHomeworksForUser(user);
+        model.addAttribute("studentshomeworks", homeworksInUse);
+        return "/student/home";
     }
 
     @GetMapping("/student/attempt/{homeworkId}")
