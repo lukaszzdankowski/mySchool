@@ -54,4 +54,9 @@ public class LoginController {
         session.invalidate();
         return "redirect: /login";
     }
+
+    @GetMapping("/noauthorization")
+    public String noAuthorization() {
+        return "/noauthorization";
+    }
 }
