@@ -24,7 +24,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String authorizing(HttpServletRequest request) {
+    public String authentication(HttpServletRequest request) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         if (!userService.checkIfEmailUsed(email)) {
@@ -34,11 +34,15 @@ public class LoginController {
         if (!BCrypt.checkpw(password, user.getPassword())) {
             return "/wrongpassword";
         }
+        AppUser appUser = new AppUser();
+        appUser.setEmail(user.getEmail());
+        appUser.setName(user.getName());
+        appUser.setRole(user.getRole());
         HttpSession session = request.getSession();
-        session.setAttribute("loggedUser", user);
-        if ("teacher".equals(user.getRole())) {
+        session.setAttribute("appUser", appUser);
+        if ("teacher".equals(appUser.getRole())) {
             return "redirect: /teacher/home";
-        } else if ("student".equals(user.getRole())) {
+        } else if ("student".equals(appUser.getRole())) {
             return "redirect: /student/home";
         } else {
             return "/error";
