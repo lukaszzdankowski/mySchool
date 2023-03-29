@@ -15,6 +15,7 @@ mySchool is a project for educational purpose and it is still beeing improved.
 <li>MySQL</li>
 <li>SQL / JPQL / JPA methods</li>
 <li>JSP</li>
+<li>JavaScript</li>
 </ul>
 
 <h2>Completed features of mySchool:</h2>
